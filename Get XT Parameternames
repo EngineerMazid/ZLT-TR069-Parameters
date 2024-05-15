@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cwmp>
+    <model name="InternetGatewayDevice:1.14">
+        <object name="InternetGatewayDevice">
+            <object name="DeviceInfo">
+                <param name="X_RVSN" type="string" forcedInform="true" activeNotify="canDeny" get_func="cpe_get_RealSoftwareVersion" /> 
+                <param name="Memory" type="string" alias="Memory"/>
+                <param name="X_T_ConnectTime" type="string" activeNotify="canDeny" alias="X_T_ConnectTime"/>
+                <param name="X_T_TotalConnectTime" type="string" activeNotify="canDeny" get_func="cpe_get_TotalConnectTime"/>
+                <param name="X_T_ConnectionStatus" type="string(64)" activeNotify="canDeny" alias="X_T_ConnectionStatus"/>
+                <param name="X_T_ServiceStatus" type="string(64)" activeNotify="canDeny" alias="X_T_ServiceStatus"/>
+                <param name="X_T_IMEI" type="string" activeNotify="canDeny" alias="X_T_IMEI"/>
+                <param name="X_T_DeviceType" type="string" activeNotify="canDeny" alias="X_T_DeviceType"/>
+                <param name="X_T_CollectTime" type="string" activeNotify="canDeny" get_func="cpe_get_CollectTime"/>
+				<object name="X_T_Flash" refresh_func="cpe_refresh_X_T_Flash">
+                    <object name="{i}">
+                        <param name="Name" type="string" get_func="cpe_get_X_T_Flash_Name"/>
+                        <param name="Total" type="unsignedInt" get_func="cpe_get_X_T_Flash_Total"/>
+                        <param name="Free" type="unsignedInt" get_func="cpe_get_X_T_Flash_Free"/>
+                    </object>
+                </object>
+                <object name="MemoryStatus">
+                    <param name="X_T_Status" type ="string" activeNotify="canDeny" alias="X_T_Status"/>
+					<param name="X_T_Usage" type="unsignedInt­[:100]" activeNotify="canDeny" get_func="cpe_get_Usage_Memory"/>
+                </object>
+                <object name="VendorConfigFile" access="readOnly" refresh_func="cpe_refresh_VendorConfigFile">
+                    <object name="{i}">
+                        <param name="X_T_ConfigVersion" type="string(16)" access="readOnly" forcedInform="true" alias="X_T_ConfigVersion"/>              
+                    </object>    
+                </object>                
+            </object>
+            <object name="X_T_Management">
+            	<param name="SysListOpenFilesNum" type="unsignedInt" access="readOnly" get_func="cpe_get_SysListOpenFilesNum"/>
+            </object>
+            <object name="IEEE1905">
+            	<object name="AL">
+            		<object name="NetworkTopology">
+            			 <param name="Enable" type="boolean" access="readWrite" get_func="cpe_get_MashEnable" set_func="cpe_set_MashEnable"/>
+            		</object>
+            	</object>
+            </object>
+			<object name="Time">
+                <param name="X_T_TimerRebootEnable" type="boolean" access="readWrite" set_func="cpe_set_Timer_Reboot_Enable" alias="X_T_TimerRebootEnable"/>
+                <param name="X_T_TimerRebootHour" type="string" access="readWrite" set_func="cpe_set_Timer_Reboot_Hour" alias="X_T_TimerRebootHour"/>
+                <param name="X_T_TimerRebootMinute" type="string" access="readWrite" set_func="cpe_set_Timer_Reboot_Minute" alias="X_T_TimerRebootMinute"/>
+                <param name="X_T_TimerRebootSecond" type="string" access="readWrite" set_func="cpe_set_Timer_Reboot_Second" alias="X_T_TimerRebootSecond"/>
+                <param name="X_T_TimerRebootWeek" type="string" access="readWrite" set_func="cpe_set_Timer_Reboot_Week" alias="X_T_TimerRebootWeek"/>
+            </object>
+            <object name="LANDevice" access="readWrite" numEntriesParameter="LANDeviceNumberOfEntries" refresh_func="cpe_refresh_igd_LANDevice">
+                <object name="{i}">
+                	<object name="LANHostConfigManagement">
+                		<param name="X_T_Secondary_DNSServers" type="string(64)" access="readWrite" alias="X_T_Secondary_DNSServers"/>
+                		<param name="X_T_MACFilterEnable" type="string" access="readWrite" get_func="cpe_get_EnableOfMACFilter" set_func="cpe_set_EnableOfMACFilter"/>
+                		<param name="X_T_MACFilterConfig" type="string" access="readWrite" get_func="cpe_get_ConfigOfMACFilter" set_func="cpe_set_ConfigOfMACFilter"/>
+                	</object>
+                    <object name="WLANConfiguration" access="readWrite" refresh_func="cpe_refresh_WLANConfiguration">
+                        <object name="{i}">
+                            <param name="X_T_SSID_Frequency" type="string(256)" get_func="cpe_get_X_T_SSID_Frequency"/>
+                            <param name="X_T_SSID_Bandwidth" type="string" access="readWrite" get_func="cpe_get_X_T_SSID_Bandwidth" set_func="cpe_set_X_T_SSID_Bandwidth"/>
+                            <param name="X_T_SSID_BandwidthSupported" type="string" get_func="cpe_get_X_T_SSID_BandwidthSupported"/>
+                            <param name="X_T_SSID_ChannelScore" type="string" get_func="cpe_get_X_T_ChannelScore"/>
+                            <param name="X_T_SSID_DeviceRSSI" type="string" get_func="cpe_get_X_T_DeviceRSSI"/>
+                            <param name="X_T_SSID_DeviceULThroughput" type="string" get_func="cpe_get_X_T_DeviceULThroughput"/>
+                            <param name="X_T_SSID_DeviceDLThroughput" type="string" get_func="cpe_get_X_T_DeviceDLThroughput"/>
+                            <object name="AssociatedDevice" access="readOnly" numEntriesParameter="TotalAssociations" minEntries="0" maxEntries="unbounded" refresh_func="cpe_refresh_WLAN_AssociatedDevice">
+                                <object name="{i}">
+                                    <param name="X_T_AssociatedDeviceName" type="string(64)" activeNotify="canDeny" get_func="cpe_get_wlan_AssociatedDeviceName"/>
+                                    <param name="X_T_AssociatedDeviceRssi" type="string(64)" activeNotify="canDeny" get_func="cpe_get_wlan_AssociatedDeviceRssi"/>
+                                </object>                
+                            </object>
+                        </object>                
+                    </object>
+                    <object name="Hosts">
+                        <object name="Host" numEntriesParameter="HostNumberOfEntries" access="readWrite" refresh_func="cpe_refresh_Host">
+                            <object name="{i}">
+                                <param name="X_T_Quota" type="string(64)" get_func="cpe_get_Host_Quota"/>
+                            </object>                
+                        </object>
+                    </object>                
+                </object>
+            </object>
+            <object name="WANDevice" access="readWrite" refresh_func="cpe_refresh_WANDevice">
+                <object name="{i}">
+                    <object name="X_T_WANNetworkInfo">
+                    	<param name="SIM_Status" type="string(256)" get_func="cpe_get_SIM_Status"/>
+                    	<param name="Network_Status" type="string(256)" get_func="cpe_get_Network_Status"/>
+                    	<param name="NETWORK_TYPE" type="string(256)" get_func="cpe_get_NETWORK_TYPE"/>
+                    	<param name="LOCK_PIN_FLAG" type="string(256)" get_func="cpe_get_LOCK_PIN_FLAG "/>
+                    	<param name="LOCK_PUK_FLAG" type="string(256)" get_func="cpe_get_LOCK_PUK_FLAG "/>
+                    	<param name="ROAM_Status" type="string(256)" get_func="cpe_get_ROAM_Status"/>
+						<param name="GW_ALL_BAND" type="string(256)" get_func="cpe_get_GW_ALL_BAND "/>
+						<param name="LTE_ALL_BAND" type="string(256)" get_func="cpe_get_LTE_ALL_BAND"/>
+						<param name="TDS_ALL_BAND" type="string(256)" get_func="cpe_get_TDS_ALL_BAND"/>
+						<param name="GW_LOCK_BAND" type="string(256)" get_func="cpe_get_GW_LOCK_BAND"/>
+						<param name="LTE_LOCK_BAND" type="string(256)" get_func="cpe_get_LTE_LOCK_BAND "/>
+						<param name="TDS_LOCK_BAND" type="string(256)" get_func="cpe_get_TDS_LOCK_BAND "/>                 	 
+                    	<param name="ICCID" type="string(256)" get_func="cpe_get_ICCID"/>
+                    	<param name="IMSI" type="string(256)" get_func="cpe_get_IMSI"/>
+                    	<param name="PLMN" type="string(256)" get_func="cpe_get_PLMN"/>
+						<param name="PLMN_5G" type="string(256)" get_func="cpe_get_PLMN_5G"/>
+						<param name="LTE_TAC" type="string(256)" get_func="cpe_get_LTE_TAC"/>
+						<param name="NR_TAC" type="string(256)" get_func="cpe_get_NR_TAC"/>
+                     	<param name="LAC" type="string(256)" get_func="cpe_get_LAC"/>
+                    	<param name="CELL_ID" type="string(256)" get_func="cpe_get_CELL_ID"/>
+                    	<param name="PCI" type="string(256)" get_func="cpe_get_PCI"/>
+                    	<param name="ENODEBID" type="string(256)" get_func="cpe_get_ENODEBID"/>
+                    	<param name="FREQ" type="string(256)" get_func="cpe_get_FREQ"/>
+                    	<param name="CURRENT_BAND" type="string(256)" get_func="cpe_get_CURRENT_BAND"/>
+                    	<param name="MSISDN" type="string(256)" get_func="cpe_get_MSISDN"/>
+                    	<param name="RSRP" type="string(256)" get_func="cpe_get_RSRP"/>
+                     	<param name="RSRQ" type="string(256)" get_func="cpe_get_RSRQ"/>
+                    	<param name="SINR" type="string(256)" get_func="cpe_get_SINR"/>
+                    	<param name="RSSI" type="string(256)" get_func="cpe_get_RSSI"/>
+                    	<param name="CQI" type="string(256)" get_func="cpe_get_CQI"/>
+                     	<param name="ECGI" type="string(256)" get_func="cpe_get_ECGI"/>
+                    	<param name="BANDWIDTH" type="string(256)" get_func="cpe_get_BANDWIDTH"/>
+                    	<param name="SIGNAL_LVL" type="string(256)" get_func="cpe_get_SIGNAL_LVL"/>
+                    	<param name="PIN_SWITCH" type="string(256)" get_func="cpe_get_PIN_SWITCH"/>
+                    	<param name="ECI" type="string(256)" get_func="cpe_get_ECI"/>
+                    	<param name="CURRENTBAND_5G" type="string(256)" get_func="cpe_get_CURRENTBAND_5G"/>
+                    	<param name="FREQ_5G" type="string(256)" get_func="cpe_get_FREQ_5G"/>
+                    	<param name="PCI_5G" type="string(256)" get_func="cpe_get_PCI_5G"/>
+                    	<param name="ENODEBID_5G" type="string(256)" get_func="cpe_get_ENODEBID_5G"/>
+					 	<param name="CELL_ID_5G" type="string(256)" get_func="cpe_get_CELL_ID_5G"/>
+   						<param name="CURRENT_CREG_ACT" type="string(256)" get_func="cpe_get_CURRENT_CREG_ACT"/>
+    					<param name="GSM_ALL_BAND" type="string(256)" get_func="cpe_get_GSM_ALL_BAND"/>
+     					<param name="BANDWIDTH_5G" type="string(256)" get_func="cpe_get_BANDWIDTH_5G"/>
+     					<param name="NETWORK_OPERATOR" type="string(256)" get_func="cpe_get_NETWORK_OPERATOR"/>
+                    	<param name="DL_MCS" type="string(256)" get_func="cpe_get_MCS"/>    					 
+     					<param name="UL_MCS" type="string(256)" get_func="cpe_get_UL_MCS"/>
+     				 	<param name="UL_MCS_5G" type="string(256)" get_func="cpe_get_UL_MCS_5G"/>
+      					<param name="DL_MCS_5G" type="string(256)" get_func="cpe_get_DL_MCS_5G"/>	
+      					<param name="SINR_5G" type="string(256)" get_func="cpe_get_SINR_5G"/>
+      					<param name="RSRP_5G" type="string(256)" get_func="cpe_get_RSRP_5G"/>
+						<param name="RSSI_5G" type="string(256)" get_func="cpe_get_RSSI_5G"/>
+      					<param name="RSRQ_5G" type="string(256)" get_func="cpe_get_RSRQ_5G"/>   
+      					<param name="CQI_5G" type="string(256)" get_func="cpe_get_CQI_5G"/>
+						<param name="LTE_RANK" type="string(256)" get_func="cpe_get_LTE_RANK"/>
+                         <param name="NR_RANK" type="string(256)" get_func="cpe_get_NR_RANK"/>
+                         <param name="MaxULThroughput" type="string(256)" get_func="cpe_get_MaxULThroughput"/>
+                         <param name="MaxDLThroughput" type="string(256)" get_func="cpe_get_MaxDLThroughput"/>
+                         <param name="TotalUpload" type="string" get_func="cpe_get_TotalUpload"/>
+                         <param name="TotalDownload" type="string" get_func="cpe_get_TotalDownload"/>
+                         <param name="X_T_LTE_Power" type="string" activeNotify="canDeny" get_func="cpe_get_LTE_Power"/>
+                         <param name="X_T_NR_Power" type="string" activeNotify="canDeny" get_func="cpe_get_NR_Power"/>
+                         <param name="X_T_NCGI" type="string(64)" activeNotify="canDeny" get_func="cpe_get_NCGI"/>
+                         <parma name="X_T_NR_QCI" type="string" activeNotify="canDeny" get_func="cpe_get_NR_QCI"/>
+                         <param name="X_T_SSB_BeamID" type="string" activeNotify="canDeny" get_func="cpe_get_SSB_BEAMID"/>
+                         <parma name="X_T_Neighbor_EARFCN" type="string" activeNotify="canDeny" get_func="cpe_get_Neighbor_EARFCN"/>
+                         <parma name="X_T_Neighbor_EARFCN_5G" type="string" activeNotify="canDeny" get_func="cpe_get_Neighbor_EARFCN_5G"/>
+                         <parma name="X_T_Neighbor_PCID" type="string" activeNotify="canDeny" get_func="cpe_get_Neighbor_PCID"/>
+                         <parma name="X_T_Neighbor_PCID_5G" type="string" activeNotify="canDeny" get_func="cpe_get_Neighbor_PCID_5G"/>
+                         <parma name="X_T_Neighbor_RSRP" type="string" activeNotify="canDeny" get_func="cpe_get_Neighbor_RSRP"/>
+                         <parma name="X_T_Neighbor_RSRP_5G" type="string" activeNotify="canDeny" get_func="cpe_get_Neighbor_RSRP_5G"/>
+		                <param name="NW_5G_MODE" type="string" access="readWrite" activeNotify="canDeny" get_func="cpe_get_NW_5G_MODE" set_func="cpe_set_NW_5G_MODE"/>      					 
+		                <param name="MN_APN_NAME" type="string(256)" access="readWrite" get_func="cpe_get_MN_APN_NAME" set_func="cpe_set_MN_APN_NAME"/>	
+		                <param name="IPv4Status" type="string(256)" get_func="cpe_get_IPv4Status"/>	
+		                <param name="IPv6Status" type="string(256)" get_func="cpe_get_IPv6Status"/>
+						<object name="X_T_WAN_MODE">
+                            <param name="WANMODE" type="string(256)" activeNotify="canDeny" get_func="cpe_get_X_T_wan_mode"/>
+                         </object>
+                         <object name="X_T_EXPLAIN_WAN_MODE">
+                            <param name="EPWANMODE" type="string(256)" activeNotify="canDeny" get_func="cpe_get_X_T_explain_wan_mode"/>
+                         </object>
+						<object name="AUX_APN" refresh_func="cpe_refresh_AUX_APN" >
+		                 	<object name="{i}" >	
+		                 		<param name="Enable" type="boolean" access="readWrite" get_func="cpe_get_AUXAPN_Enable" set_func="cpe_set_AUXAPN_Enable"/>
+		                 		<param name="APN" type="string(256)" get_func="cpe_get_AUXAPN_APN"/>
+		                 		<param name="APN_NAME" type="string(256)" access="readWrite" get_func="cpe_get_AUXAPN_Name" set_func="cpe_set_AUXAPN_Nanme"/>
+		                 		<param name="AuthenticationMode" type="string(46)" access="readWrite" get_func="cpe_get_AUXAPN_AuthenticationMode"  set_func="cpe_set_AUXAPN_AuthenticationMode"/>
+		                 		<param name="ServiceType" type="string(46)" get_func="cpe_get_AUXAPN_ServiceType"/>
+		                 		<param name="APNMTU" type="unsignedInt" access="readWrite" get_func="cpe_get_AUXAPN_MTU"  set_func="cpe_set_AUXAPN_MTU"/>
+		                 		<param name="UserName" type="string(256)" access="readWrite" get_func="cpe_get_AUXAPN_UserName"  set_func="cpe_set_AUXAPN_UserName"/>
+		                 		<param name="UserPassword" type="string(256)" access="readWrite" get_func="cpe_get_AUXAPN_UserPassword"  set_func="cpe_set_AUXAPN_UserPassword"/>
+		                 		<param name="IPAddressV4" type="string(46)" get_func="cpe_get_AUXAPN_IPAddressV4"/>
+		                 		<param name="NetMaskV4" type="string(46)" get_func="cpe_get_AUXAPN_NetMaskV4"/>
+		                 		<param name="IPAddressV6" type="string(46)" get_func="cpe_get_AUXAPN_IPAddressV6"/>
+		                 		<param name="Interafce" type="string(256)" get_func="cpe_get_AUXAPN_Interafce"/>
+		                 	</object>
+		                </object>
+		                <object name="Main_APN" >
+	                 		<param name="Enable" type="boolean" get_func="cpe_get_MainAPN_Enable" />
+	                 		<param name="APN" type="string(256)" get_func="cpe_get_MainAPN_APN"/>
+	                 		<param name="APN_NAME" type="string(256)" access="readWrite" get_func="cpe_get_MN_APN_NAME" set_func="cpe_set_MainAPN_NAME"/>
+	                 		<param name="AuthenticationMode" type="string(46)" access="readWrite" get_func="cpe_get_MainAPN_AuthenticationMode"  set_func="cpe_set_MainAPN_AuthenticationMode"/>
+	                 		<param name="ServiceType" type="string(46)" get_func="cpe_get_MainAPN_ServiceType"/>
+	                 		<param name="APNMTU" type="unsignedInt" access="readWrite" get_func="cpe_get_MainAPN_MTU"  set_func="cpe_set_MainAPN_MTU"/>
+	                 		<param name="UserName" type="string(256)" access="readWrite" get_func="cpe_get_MainAPN_UserName"  set_func="cpe_set_MainAPN_UserName"/>
+	                 		<param name="UserPassword" type="string(256)" access="readWrite" get_func="cpe_get_MainAPN_UserPassword"  set_func="cpe_set_MainAPN_UserPassword"/>
+	                 		<param name="IPAddressV4" type="string(46)" get_func="cpe_get_MainAPN_IPAddressV4"/>
+	                 		<param name="NetMaskV4" type="string(46)" get_func="cpe_get_MainAPN_NetMaskV4"/>
+	                 		<param name="IPAddressV6" type="string(46)" get_func="cpe_get_MainAPN_IPAddressV6"/>
+	                 		<param name="Interafce" type="string(256)" get_func="cpe_get_MainAPN_Interafce"/>
+	                 		<param name="NATEnable" type="boolean" access="readWrite" get_func="cpe_get_MainAPN_NATEnable" set_func="cpe_set_MainAPN_NATEnable" />
+	                 		<param name="PDPType" type="string(46)" access="readWrite" get_func="cpe_get_MainAPN_PDPType" set_func="cpe_set_MainAPN_PDPType" />
+		                </object>	
+                    </object>
+                </object>
+            </object>        
+			<object name="X_T_List">
+                <object name="X_T_BlackList">
+                    <param name="BlackList_MACandDescription" type="string(1024)" access="readWrite" get_func="cpe_get_BlackList_MACandDescription" set_func="cpe_set_BlackList_MACandDescription"/>
+                </object>
+                <object name="X_T_WhiteList">
+                    <param name="WhiteList_MACandDescription" type="string(1024)" access="readWrite" get_func="cpe_get_WhiteList_MACandDescription" set_func="cpe_set_WhiteList_MACandDescription"/>
+                </object>
+            </object>
+            <object name="X_T_De">
+                <param name="AutoUpgrade" type="string" access="readWrite" forcedInform="true" activeNotify="canDeny" alias="AutoUpgrade"/>
+                <param name="LongConnectEnable" type="string" access="readWrite" forcedInform="true" activeNotify="canDeny" alias="LongConnectEnable"/>
+                <param name="LongConnectServerAddr" type="string"  access="readWrite" alias="LongConnectServerAddr"/>
+                <param name="LongConnectServerPort" type="string"  access="readWrite" alias="LongConnectServerPort"/>
+                <param name="LongConect_Inform_Periodic" type="string" access="readWrite" forcedInform="true" activeNotify="canDeny" alias="LongConect_Inform_Periodic"/>
+                <param name="LongConect_ReconnectRandomTime" type="string" access="readWrite" forcedInform="true" activeNotify="canDeny" alias="LongConect_ReconnectRandomTime"/>
+				<param name="LongConect_KeepaliveIntvl" type="string" access="readWrite" forcedInform="true" activeNotify="canDeny" alias="LongConect_KeepaliveIntvl"/>
+				<param name="LongConect_KeepaliveIdle" type="string" access="readWrite" forcedInform="true" activeNotify="canDeny" alias="LongConect_KeepaliveIdle"/>
+                <param name="Check_New_VersionAddr" type="string" access="readWrite" forcedInform="true" activeNotify="canDeny" alias="Check_New_VersionAddr"/>
+                <param name="IDU_Version" type="string" forcedInform="true" activeNotify="canDeny" alias="IDU_Version"/> 
+		<param name="NumberOfIDU" type="unsignedInt" alias="NumberOfIDU"/>
+                <object name="IDU" refresh_func="cpe_refresh_IDU">
+                    <object name="{i}">
+                        <param name="Version" type="string" alias="IDU_Version"/>
+                        <param name="ProductName" type="string" alias="IDU_ProductName"/>
+                        <param name="UpTime" type="unsignedInt" alias="IDU_UpTime"/>
+                        <param name="CPUUsage" type="unsignedInt" alias="IDU_CPUUsage"/>
+                        <param name="Manufacturer" type="string(64)" alias="Manufacturer"/>
+                        <param name="SN" type="string" alias="IDU_SN"/>
+                        <param name="NumberOfFlash" type="unsignedInt" get_func="cpe_get_IDU_NumberOfFlash"/>
+                        <object name="Flash" refresh_func="cpe_refresh_IDU_Flash">
+                            <object name="{i}">
+                                <param name="Name" type="string" get_func="cpe_get_IDU_Flash_Name"/>
+                                <param name="Total" type="unsignedInt" alias="IDU_Flash_Total"/>
+                                <param name="Free" type="unsignedInt" alias="IDU_Flash_Free"/>
+                            </object>
+                        </object>
+                        <object name="MemoryStatus">
+                            <param name="Total" type="unsignedInt" alias="IDU_MemoryStatus_Total"/>
+                            <param name="Free" type="unsignedInt" alias="IDU_MemoryStatus_Free"/>
+                        </object>
+                    </object>
+                </object>
+		</object>  
+			<object name="X_T_Log">
+            	<param name="Enable" type="boolean" access="readWrite" alias="X_T_Log_Enable"/>
+            	<param name="level" type="string" access="readWrite" alias="X_T_Log_level"/>
+            	<param name="maxsize" type="string" access="readWrite" alias="X_T_Log_maxsize"/>
+            	<param name="TR069Enable" type="boolean" access="readWrite" alias="X_T_Log_TR069Enable"/>
+			</object>
+            <object name="X_T_secure">
+                <object name="dnsmasq">
+                    <param name="version" type="string(32)" access="readOnly" alias="dnsmasq_version"/>
+                </object>
+                <object name="lsof">
+                    <param name="LineNumofEntries" type="unsignedInt" access="readOnly" alias="lsof_LineNum"/>
+                </object>
+            </object>
+        </object>
+    </model>   
+</cwmp>
+
+                        
+
